@@ -25,6 +25,12 @@ public class PendingOrdersRepository {
 	// TODO: Task 7
 	// WARNING: Do not change the method's signature.
 	public boolean delete(String orderId) {
+		redisTemplate.delete("orderId");
+		redisTemplate.delete("date");
+		redisTemplate.delete("total");
+		redisTemplate.delete("name");
+		redisTemplate.delete("email");
+		
 		return false;
 	}
 
