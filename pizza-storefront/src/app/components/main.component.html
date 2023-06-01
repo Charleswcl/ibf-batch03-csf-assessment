@@ -3,7 +3,7 @@
 -->
 
 <div class="box-it">
-  <form [formGroup]="pizzaForm">
+  <form [formGroup]="pizzaForm" (ngSubmit)="placeOrder()">
     <table>
       <tr>
         <td> <label for="name">Name:</label> </td>

@@ -1,6 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { PizzaService } from '../pizza.service';
+import { pizzaOrder } from '../models';
 
 const SIZES: string[] = [
   "Personal - 6 inches",
@@ -25,14 +27,22 @@ export class MainComponent implements OnInit {
 
   fb = inject(FormBuilder)
   router = inject(Router)
+  pizzaSvc = inject(PizzaService)
 
   pizzaForm!: FormGroup
   toppingsArray!: FormArray
+
 
   ngOnInit(): void {
 
     this.pizzaForm = this.createOrderForm()
 
+  }
+
+  placeOrder() {
+    const order: pizzaOrder = this.pizzaForm.value as pizzaOrder
+    this.router.navigate(['/orders'])
+    this.pizzaSvc.placeOrder(order)
   }
 
   updateSize(size: string) {
@@ -42,7 +52,7 @@ export class MainComponent implements OnInit {
   onSelectToppings(o: any) {
     this.toppingsArray = this.pizzaForm.get('toppings') as FormArray
     if (o.target.checked) {
-      this.toppingsArray.push(new FormControl (this.createToppings))
+      this.toppingsArray.push(new FormControl(this.createToppings))
     } else {
       let i: number = 0
       this.toppingsArray.controls.forEach(item => {
